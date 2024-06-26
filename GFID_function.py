@@ -1,6 +1,12 @@
 #GFIDfunction
+#nbrp is the number of point of the curve
+#F is the complex coordinates of the curve
+#Nc is the truncation 
+#n0 and n1 are the successive DFT coefficient indexes (n0-n1=1)
+#p and q are the power parameters in the GFID expression for the inversion convergence (we fix these parameters to 1 in the following)
+#IA is the GFID invariant result. 
 
-def GFID(nbrp, F, Nc, n0, n1, p, q):
+def GFID_function(nbrp, F, Nc, n0, n1, p, q):
     # dft
     npc = nbrp // 2
     A = np.zeros(nbrp, dtype=np.complex128)
