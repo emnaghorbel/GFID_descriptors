@@ -4,6 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import CubicSpline
+from GFID_function import GFID_function
+from Reparametrage_euclidien2 import Reparametrage_euclidien2
+
 
 a = cv2.imread('pikachu.jpg')
 a_gray = cv2.cvtColor(a, cv2.COLOR_BGR2GRAY)
