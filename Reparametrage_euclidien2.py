@@ -1,3 +1,8 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.interpolate import CubicSpline
 def Reparametrage_euclidien2(X, Y, N):
     n = len(X)
     t = np.linspace(0, 1, n)  # parametrisation initiale
