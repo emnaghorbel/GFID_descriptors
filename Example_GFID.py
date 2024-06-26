@@ -33,7 +33,7 @@ for i in range(nbrp):
 # Ajouter un élément supplémentaire à la fin du tableau F
 F = np.append(F, X1[0] + 1j * Y1[0])
 
-IA, theta0, theta1, thetaN=invariant_ghorbel(nbrp, F, 130 , 2, 1, 1, 1)
+IA, theta0, theta1, thetaN=  GFID_function(nbrp, F, 130 , 2, 1, 1, 1)
 
 plt.plot(IA)
 
