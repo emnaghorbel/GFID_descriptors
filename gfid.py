@@ -10,25 +10,8 @@ Original file is located at
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-
-a = cv2.imread('/content/pikachu.jpg')
-a_gray = cv2.cvtColor(a, cv2.COLOR_BGR2GRAY)
-level = 0.1
-_, a_bw = cv2.threshold(a_gray, level*255, 255, cv2.THRESH_BINARY)
-Icomp = cv2.bitwise_not(a_bw)
-
-contours, _ = cv2.findContours(Icomp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-#plt.imshow(cv2.cvtColor(a_bw, cv2.COLOR_GRAY2RGB))
-
-for contour in contours:
-    x, y, w, h = cv2.boundingRect(contour)
-    plt.plot(contour[:, 0, 0], contour[:, 0, 1], 'r', linewidth=1)
-plt.show()
-
 import numpy as np
 from scipy.interpolate import CubicSpline
-
 def Reparametrage_euclidien2(X, Y, N):
     n = len(X)
     t = np.linspace(0, 1, n)  # parametrisation initiale
@@ -44,7 +27,6 @@ def Reparametrage_euclidien2(X, Y, N):
     X1 = X1.T
     Y1 = Y1.T
     return X1, Y1, L
-
 def AbscisseEuclidien(t, p1, p2, N):
     dp1 = p1.derivative()
     dp2 = p2.derivative()
@@ -59,81 +41,36 @@ def AbscisseEuclidien(t, p1, p2, N):
     s, index = np.unique(s, return_index=True)
     out = np.interp(np.linspace(0, 1, N), s, t[index])
     return L, out
+    
+a = cv2.imread('/content/pikachu.jpg')
+a_gray = cv2.cvtColor(a, cv2.COLOR_BGR2GRAY)
+level = 0.1
+_, a_bw = cv2.threshold(a_gray, level*255, 255, cv2.THRESH_BINARY)
+Icomp = cv2.bitwise_not(a_bw)
+contours, _ = cv2.findContours(Icomp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
+#plt.imshow(cv2.cvtColor(a_bw, cv2.COLOR_GRAY2RGB))
+
+for contour in contours:
+    x, y, w, h = cv2.boundingRect(contour)
+    plt.plot(contour[:, 0, 0], contour[:, 0, 1], 'r', linewidth=1)
+plt.show()
+
+#number of points in the shape
 nbrp=130
-
+#resampling the contour
 X1, Y1, L=Reparametrage_euclidien2(contour[:, 0, 0], contour[:, 0, 1], nbrp)
+#plt.plot(X1,Y1)
 
-plt.plot(X1,Y1)
-
+#convert to complex
 F = np.zeros(nbrp,  dtype=np.complex128)
 for i in range(nbrp):
     F[i] = X1[i] + 1j * Y1[i]
 # Ajouter un élément supplémentaire à la fin du tableau F
 F = np.append(F, X1[0] + 1j * Y1[0])
 
-plt.plot(np.real(F), np.imag(F))
+#plt.plot(np.real(F), np.imag(F))
 
-import numpy as np
-
-def invariant_ghorbel(nbrp, F, Nc, n0, n1, p, q):
-    # dft
-    npc = nbrp // 2
-    A = np.zeros(nbrp, dtype=np.complex128)
-    for k in range(nbrp):
-        for n in range(nbrp):
-            A[k] = A[k] + F[n] * np.exp(-2 * 1j * np.pi * (k - 1) * (n - 1) / nbrp)
-
-    # le centre de gravité est
-    GA = A[0] / nbrp
-
-    # invariants stables et complets
-    # Partie négative des invariants dans le vecteur An
-    An = np.zeros(npc, dtype=np.complex128)
-    for i in range(npc + 1, nbrp):
-        An[i - npc] = A[i]
-
-    # Partie positive des invariants dans le vecteur Ap
-    Ap = np.zeros(npc, dtype=np.complex128)
-    for i in range(npc):
-        Ap[i] = A[i]
-
-    # translation et tronquage
-    Ac = np.zeros(nbrp, dtype=np.complex128)
-    for i in range(npc):
-        Ac[i] = An[i]
-    for i in range(npc, nbrp):
-        Ac[i] = Ap[i - npc]
-
-    Atr = np.zeros(2 * Nc + 1, dtype=np.complex128)
-    # Adjust the loop to ensure valid indices for Atr
-    for i, v in enumerate(range(npc + 1 - Nc, npc + 1 + Nc)):
-        if 0 <= v < len(Ac):  # Check if v is a valid index for Ac
-            Atr[i] = Ac[v]
-
-    Anew = np.zeros(2 * Nc + 1, dtype=np.complex128)
-    for v in range(2 * Nc + 1):
-        Anew[v] = Atr[npc + 1 - Nc - 1 + v]
-
-    theta0 = np.angle(Anew[n0 + 1 + Nc])
-    theta1 = np.angle(Anew[n1 + 1 + Nc])
-    thetaN = np.angle(Anew)
-
-    # calcul des invariants
-    Kk = np.zeros(2 * Nc + 1, dtype=np.complex128)
-    for v in range(2 * Nc + 1):
-        Kk[v] = v * (theta1 - theta0) + (n1 * theta0 - n0 * theta1) + (n0 - n1) * thetaN[v]
-
-    E = np.zeros(2 * Nc + 1, dtype=np.complex128)
-    for v in range(2 * Nc + 1):
-        E[v] = np.exp(1j * Kk[v])
-
-
-    IA = np.zeros(2 * Nc + 1, dtype=np.complex128)
-    for v in range(2 * Nc + 1):
-        IA[v] = (np.abs(Anew[v])**(n0 - n1)) * (np.abs(Anew[n0 + 1 + Nc])**p) * (np.abs(Anew[n1 + 1 + Nc])**q) * E[v]
-
-    return IA, theta0, theta1, thetaN
 
 IA, theta0, theta1, thetaN=invariant_ghorbel(nbrp, F, 130 , 2, 1, 1, 1)
 
