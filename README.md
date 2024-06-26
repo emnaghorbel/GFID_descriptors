@@ -8,7 +8,11 @@ E. Ghorbel, F. Ghorbel and S. M’Hiri, "A Fast and Efficient Shape Blending by 
 
 Contour Extraction :
 ![Extraction_de_contour](extraction_pikachu.png)
+
+
 Arc-length resampling :
 ![Extraction_de_contour](resampling_pikachu.png)
+
+
 Plotting the GFID description modulus :
 ![GFID_mod](GFID_mod.png)
