@@ -5,6 +5,8 @@
 #n0 and n1 are the successive DFT coefficient indexes (n0-n1=1)
 #p and q are the power parameters in the GFID expression for the inversion convergence (we fix these parameters to 1 in the following)
 #IA is the GFID invariant result. 
+import cv2
+import numpy as np
 
 def GFID_function(nbrp, F, Nc, n0, n1, p, q):
     # dft
