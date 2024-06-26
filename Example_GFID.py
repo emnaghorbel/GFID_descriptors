@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import CubicSpline
 
-a = cv2.imread('/content/pikachu.jpg')
+a = cv2.imread('pikachu.jpg')
 a_gray = cv2.cvtColor(a, cv2.COLOR_BGR2GRAY)
 level = 0.1
 _, a_bw = cv2.threshold(a_gray, level*255, 255, cv2.THRESH_BINARY)
