@@ -10,7 +10,9 @@ Language : Python
 Run the following script : 
 
 git clone https://github.com/emnaghorbel/GFID_descriptors.git
+
 cd ./GFID_descriptors/
+
 python Example_GFID
 
 
