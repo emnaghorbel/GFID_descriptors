@@ -1,5 +1,5 @@
 #GFIDfunction
-#nbrp is the number of point of the curve
+#nbrp is the number of point on the curve
 #F is the complex coordinates of the curve
 #Nc is the truncation 
 #n0 and n1 are the successive DFT coefficient indexes (n0-n1=1)
