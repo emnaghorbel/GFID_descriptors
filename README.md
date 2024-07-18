@@ -28,4 +28,7 @@ Arc-length resampling :
 
 Plotting the GFID description modulus :
 
-![GFID_mod](GFID_mod.png)
+![GFID_mod](GFID_mods.png)
+
+Plotting the reconstruction through the GFID inverse formula :
+![Reconstruction](Reconstruction.png)
