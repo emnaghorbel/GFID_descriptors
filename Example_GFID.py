@@ -1,11 +1,4 @@
 #GFID Example on the pikachu.jpg image 
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
-import numpy as np
-from scipy.interpolate import CubicSpline
-from GFID_function import GFID_function
-from Reparametrage_euclidien2 import Reparametrage_euclidien2
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,7 +18,7 @@ contours, _ = cv2.findContours(Icomp, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
 # Extract the boundary in the BW image
 for contour in contours:
     x, y, w, h = cv2.boundingRect(contour)
-    plt.plot(contour[:, 0, 0], contour[:, 0, 1], 'r', linewidth=1)
+    #plt.plot(contour[:, 0, 0], contour[:, 0, 1], 'r', linewidth=1)
 
 # Number of points in the shape
 nbrp = 130
@@ -52,7 +45,6 @@ for i in range(nbrp):
 # Ajouter un élément supplémentaire à la fin du tableau F
 F = np.append(F, X1[0] + 1j * Y1[0])
 
-IA, theta0, theta1, thetaN=  GFID_function(nbrp, F, 130 , 2, 1, 1, 1)
+IA, theta0, theta1, thetaN=  GFID_function2(nbrp, F, 50, 2, 1, 1, 1)
 
 plt.plot(np.abs(IA))
-
