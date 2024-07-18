@@ -51,4 +51,4 @@ def GFID_function(nbrp, F, Nc, n0, n1, p, q):
         IA[v] = (abs(Anew[v])**(n0 - n1)) * (abs(Anew[n0 + Nc])**p) * (abs(Anew[n1 + Nc])**q) * E[v]
 
 
-return IA, theta0, theta1, thetaN
+    return IA, theta0, theta1, thetaN
